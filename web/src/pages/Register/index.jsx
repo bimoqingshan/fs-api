@@ -280,7 +280,7 @@ const Register = () => {
                         />
                         <Button
                           size='small'
-                          className='!rounded-md !absolute right-2 top-8'
+                          className='!rounded-md !absolute right-2 top-[41.5px]'
                           onClick={handleSendVerificationCode}
                           loading={verificationCodeLoading}
                           disabled={
