@@ -1,5 +1,6 @@
 > FS API fork note: this repository is a second-development project based on `QuantumNous/new-api`.
-> See [README_FS_API.md](./README_FS_API.md) for local deployment, fork maintenance, and AGPL source-code notes.
+> For FS API deployment and operations, see [README_FS_API.md](./README_FS_API.md).
+> Open-source notice: this project remains under **AGPL-3.0**. If you provide this modified service over a network, you must provide the corresponding source code to users.
 
 <div align="center">
 
@@ -56,6 +57,25 @@
 </div>
 
 ## 📝 Project Description
+
+## FS API (This Fork)
+
+- Repository: `https://github.com/bimoqingshan/fs-api`
+- Default local URL: `http://localhost:3000`
+- Recommended DB for this fork: MySQL
+- Deployment/maintenance guide: [README_FS_API.md](./README_FS_API.md)
+
+### Quick Start (FS API)
+
+```bash
+git clone https://github.com/bimoqingshan/fs-api.git
+cd fs-api
+docker compose up -d
+```
+
+After startup, open `http://localhost:3000`.
+
+---
 
 > [!IMPORTANT]
 > - This project is for personal learning purposes only, with no guarantee of stability or technical support

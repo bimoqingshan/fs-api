@@ -1,5 +1,6 @@
 > FS API 二开说明：当前仓库基于 `QuantumNous/new-api` 二次开发。
-> 本项目的启动、维护和 AGPL 源码说明见 [README_FS_API.md](./README_FS_API.md)。
+> 本项目的部署与维护说明见 [README_FS_API.md](./README_FS_API.md)。
+> 开源声明：本项目继续遵循 **AGPL-3.0**。若你将修改后的服务通过网络提供给外部用户，需向这些用户提供对应源码。
 
 <div align="center">
 
@@ -56,6 +57,25 @@
 </div>
 
 ## 📝 项目说明
+
+## FS API（当前仓库）
+
+- 仓库地址：`https://github.com/bimoqingshan/fs-api`
+- 本地默认访问：`http://localhost:3000`
+- 当前二开推荐数据库：MySQL
+- 部署与维护指南：[README_FS_API.md](./README_FS_API.md)
+
+### 快速启动（FS API）
+
+```bash
+git clone https://github.com/bimoqingshan/fs-api.git
+cd fs-api
+docker compose up -d
+```
+
+启动后访问：`http://localhost:3000`
+
+---
 
 > [!IMPORTANT]
 > - 本项目仅供个人学习使用，不保证稳定性，且不提供任何技术支持
