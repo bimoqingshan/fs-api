@@ -36,7 +36,12 @@ const Navigation = ({
 
     const commonLinkClasses = `${baseClasses} ${spacingClasses} ${hoverClasses}`;
 
-    return mainNavLinks.map((link) => {
+    return mainNavLinks.filter((link) => {
+      if (link.itemKey === 'console' && !userState.user) {
+        return false;
+      }
+      return true;
+    }).map((link) => {
       const linkContent = <span>{link.text}</span>;
 
       if (link.isExternal) {
@@ -54,9 +59,6 @@ const Navigation = ({
       }
 
       let targetPath = link.to;
-      if (link.itemKey === 'console' && !userState.user) {
-        targetPath = '/login';
-      }
       if (link.itemKey === 'pricing' && pricingRequireAuth && !userState.user) {
         targetPath = '/login';
       }

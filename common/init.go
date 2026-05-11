@@ -22,10 +22,13 @@ var (
 )
 
 func printHelp() {
-	fmt.Println("NewAPI(Based OneAPI) " + Version + " - The next-generation LLM gateway and AI asset management system supports multiple languages.")
+	fmt.Println(SystemName + " " + Version + " - LLM gateway and AI asset management system based on New API.")
 	fmt.Println("Original Project: OneAPI by JustSong - https://github.com/songquanpeng/one-api")
-	fmt.Println("Maintainer: QuantumNous - https://github.com/QuantumNous/new-api")
-	fmt.Println("Usage: newapi [--port <port>] [--log-dir <log directory>] [--version] [--help]")
+	fmt.Println("Upstream Project: New API by QuantumNous - https://github.com/QuantumNous/new-api")
+	if SourceCodeURL != "" {
+		fmt.Println("Source Code: " + SourceCodeURL)
+	}
+	fmt.Println("Usage: fs-api [--port <port>] [--log-dir <log directory>] [--version] [--help]")
 }
 
 func InitEnv() {
@@ -35,6 +38,7 @@ func InitEnv() {
 	if envVersion != "" {
 		Version = envVersion
 	}
+	SourceCodeURL = GetEnvOrDefaultString("SOURCE_CODE_URL", SourceCodeURL)
 
 	if *PrintVersion {
 		fmt.Println(Version)

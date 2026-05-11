@@ -57,6 +57,18 @@ export const useHeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
 
   // 使用useMemo确保headerNavModules正确响应statusState变化
   const headerNavModules = useMemo(() => {
+    const defaultModules = {
+      home: true,
+      console: true,
+      imageGeneration: true,
+      pricing: {
+        enabled: true,
+        requireAuth: false,
+      },
+      docs: true,
+      about: true,
+    };
+
     if (headerNavModulesConfig) {
       try {
         const modules = JSON.parse(headerNavModulesConfig);
@@ -69,7 +81,10 @@ export const useHeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
           };
         }
 
-        return modules;
+        return {
+          ...defaultModules,
+          ...modules,
+        };
       } catch (error) {
         console.error('解析顶栏模块配置失败:', error);
         return null;

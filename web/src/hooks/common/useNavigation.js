@@ -25,13 +25,17 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
     const defaultModules = {
       home: true,
       console: true,
+      imageGeneration: true,
       pricing: true,
       docs: true,
       about: true,
     };
 
     // 使用传入的配置或默认配置
-    const modules = headerNavModules || defaultModules;
+    const modules = {
+      ...defaultModules,
+      ...(headerNavModules || {}),
+    };
 
     const allLinks = [
       {
@@ -43,6 +47,11 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
         text: t('控制台'),
         itemKey: 'console',
         to: '/console',
+      },
+      {
+        text: t('图片生成'),
+        itemKey: 'imageGeneration',
+        to: '/image-generation',
       },
       {
         text: t('模型广场'),

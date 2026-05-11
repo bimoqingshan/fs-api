@@ -48,8 +48,12 @@ export function isRoot() {
 
 export function getSystemName() {
   let system_name = localStorage.getItem('system_name');
-  if (!system_name) return 'New API';
+  if (!system_name) return 'FS API';
   return system_name;
+}
+
+export function getSourceCodeURL() {
+  return localStorage.getItem('source_code_url') || '';
 }
 
 export function getLogo() {

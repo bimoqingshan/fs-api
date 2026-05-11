@@ -1,0 +1,18 @@
+# File path: /etc/systemd/system/fs-api.service
+# sudo systemctl daemon-reload
+# sudo systemctl start fs-api
+# sudo systemctl enable fs-api
+# sudo systemctl status fs-api
+[Unit]
+Description=FS API Gateway Service
+After=network.target
+
+[Service]
+User=ubuntu  # 注意修改用户名
+WorkingDirectory=/path/to/fs-api  # 注意修改路径
+ExecStart=/path/to/fs-api/fs-api --port 3000 --log-dir /path/to/fs-api/logs  # 注意修改路径和端口号
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

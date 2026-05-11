@@ -459,11 +459,12 @@ const Playground = () => {
 
   return (
     <PlaygroundProvider value={playgroundContextValue}>
-      <div className='h-full'>
+      <div className='fs-playground h-full'>
         <Layout className='h-full bg-transparent flex flex-col md:flex-row'>
           {(showSettings || !isMobile) && (
             <Layout.Sider
               className={`
+              fs-playground-sider
               bg-transparent border-r-0 flex-shrink-0 overflow-auto mt-[60px]
               ${
                 isMobile

@@ -20,13 +20,19 @@ For commercial licensing, please contact support@quantumnous.com
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@douyinfe/semi-ui';
-import { getFooterHTML, getLogo, getSystemName } from '../../helpers';
+import {
+  getFooterHTML,
+  getLogo,
+  getSystemName,
+  getSourceCodeURL,
+} from '../../helpers';
 import { StatusContext } from '../../context/Status';
 
 const FooterBar = () => {
   const { t } = useTranslation();
   const [footer, setFooter] = useState(getFooterHTML());
   const systemName = getSystemName();
+  const sourceCodeURL = getSourceCodeURL();
   const logo = getLogo();
   const [statusState] = useContext(StatusContext);
   const isDemoSiteMode = statusState?.status?.demo_site_enabled || false;
@@ -196,9 +202,20 @@ const FooterBar = () => {
           </div>
 
           <div className='text-sm'>
-            <span className='!text-semi-color-text-1'>
-              {t('设计与开发由')}{' '}
-            </span>
+            {sourceCodeURL && (
+              <>
+                <a
+                  href={sourceCodeURL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='!text-semi-color-primary font-medium'
+                >
+                  {t('源码')}
+                </a>
+                <span className='!text-semi-color-text-1'> · </span>
+              </>
+            )}
+            <span className='!text-semi-color-text-1'>{t('基于')} </span>
             <a
               href='https://github.com/QuantumNous/new-api'
               target='_blank'
@@ -211,7 +228,7 @@ const FooterBar = () => {
         </div>
       </footer>
     ),
-    [logo, systemName, t, currentYear, isDemoSiteMode],
+    [logo, systemName, sourceCodeURL, t, currentYear, isDemoSiteMode],
   );
 
   useEffect(() => {
@@ -228,9 +245,20 @@ const FooterBar = () => {
               dangerouslySetInnerHTML={{ __html: footer }}
             ></div>
             <div className='text-sm flex-shrink-0'>
-              <span className='!text-semi-color-text-1'>
-                {t('设计与开发由')}{' '}
-              </span>
+              {sourceCodeURL && (
+                <>
+                  <a
+                    href={sourceCodeURL}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='!text-semi-color-primary font-medium'
+                  >
+                    {t('源码')}
+                  </a>
+                  <span className='!text-semi-color-text-1'> · </span>
+                </>
+              )}
+              <span className='!text-semi-color-text-1'>{t('基于')} </span>
               <a
                 href='https://github.com/QuantumNous/new-api'
                 target='_blank'

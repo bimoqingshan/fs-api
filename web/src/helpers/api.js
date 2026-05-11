@@ -315,6 +315,17 @@ export async function onLinuxDOOAuthClicked(
   );
 }
 
+export async function onGoogleOAuthClicked(client_id, options = {}) {
+  const state = await prepareOAuthState(options);
+  if (!state) return;
+  const redirect_uri = `${window.location.origin}/oauth/google`;
+  const response_type = 'code';
+  const scope = 'openid profile email';
+  redirectToOAuthUrl(
+    `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&state=${state}`,
+  );
+}
+
 /**
  * Initiate custom OAuth login
  * @param {Object} provider - Custom OAuth provider config from status API

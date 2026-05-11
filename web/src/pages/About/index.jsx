@@ -17,8 +17,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 
-import React, { useEffect, useState } from 'react';
-import { API, showError } from '../../helpers';
+import React, { useContext, useEffect, useState } from 'react';
+import { API, showError, getSourceCodeURL } from '../../helpers';
 import { marked } from 'marked';
 import { Empty } from '@douyinfe/semi-ui';
 import {
@@ -26,12 +26,16 @@ import {
   IllustrationConstructionDark,
 } from '@douyinfe/semi-illustrations';
 import { useTranslation } from 'react-i18next';
+import { StatusContext } from '../../context/Status';
 
 const About = () => {
   const { t } = useTranslation();
+  const [statusState] = useContext(StatusContext);
   const [about, setAbout] = useState('');
   const [aboutLoaded, setAboutLoaded] = useState(false);
   const currentYear = new Date().getFullYear();
+  const sourceCodeURL =
+    statusState?.status?.source_code_url || getSourceCodeURL();
 
   const displayAbout = async () => {
     setAbout(localStorage.getItem('about') || '');
@@ -62,16 +66,34 @@ const About = () => {
   const customDescription = (
     <div style={{ textAlign: 'center' }}>
       <p>{t('可在设置页面设置关于内容，支持 HTML & Markdown')}</p>
-      {t('New API项目仓库地址：')}
-      <a
-        href='https://github.com/QuantumNous/new-api'
-        target='_blank'
-        rel='noopener noreferrer'
-        className='!text-semi-color-primary'
-      >
-        https://github.com/QuantumNous/new-api
-      </a>
       <p>
+        FS API {t('源码地址：')}
+        {sourceCodeURL ? (
+          <a
+            href={sourceCodeURL}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='!text-semi-color-primary'
+          >
+            {sourceCodeURL}
+          </a>
+        ) : (
+          <span>{t('待配置 SOURCE_CODE_URL')}</span>
+        )}
+      </p>
+      <p>
+        {t('上游 New API 项目仓库地址：')}
+        <a
+          href='https://github.com/QuantumNous/new-api'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='!text-semi-color-primary'
+        >
+          https://github.com/QuantumNous/new-api
+        </a>
+      </p>
+      <p>
+        FS API {t('基于')}{' '}
         <a
           href='https://github.com/QuantumNous/new-api'
           target='_blank'
@@ -80,7 +102,7 @@ const About = () => {
         >
           NewAPI
         </a>{' '}
-        {t('© {{currentYear}}', { currentYear })}{' '}
+        {t('© {{currentYear}}', { currentYear })}，{t('上游维护者')}{' '}
         <a
           href='https://github.com/QuantumNous'
           target='_blank'
@@ -89,7 +111,7 @@ const About = () => {
         >
           QuantumNous
         </a>{' '}
-        {t('| 基于')}{' '}
+        {t('| New API 基于')}{' '}
         <a
           href='https://github.com/songquanpeng/one-api/releases/tag/v0.5.4'
           target='_blank'

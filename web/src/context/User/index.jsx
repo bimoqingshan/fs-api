@@ -31,6 +31,19 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { i18n } = useTranslation();
 
+  // Sync user state from localStorage on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        dispatch({ type: 'login', payload: userData });
+      } catch (e) {
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
+
   // Sync language preference when user data is loaded
   useEffect(() => {
     if (state.user?.setting) {

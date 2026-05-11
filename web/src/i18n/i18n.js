@@ -34,7 +34,8 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    load: 'currentOnly',
+    load: 'languageOnly',
+    nonExplicitSupportedLngs: true,
     supportedLngs: supportedLanguages,
     resources: {
       en: enTranslation,

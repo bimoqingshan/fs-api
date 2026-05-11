@@ -30,3 +30,10 @@ func ValidatePasswordAndHash(password string, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
+
+// SHA256Hash generates a SHA256 hash of the input string
+func SHA256Hash(input string) string {
+	h := sha256.New()
+	h.Write([]byte(input))
+	return hex.EncodeToString(h.Sum(nil))
+}

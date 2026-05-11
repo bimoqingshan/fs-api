@@ -101,6 +101,7 @@ const SystemSetting = () => {
     LinuxDOClientSecret: '',
     LinuxDOMinimumTrustLevel: '',
     ServerAddress: '',
+    HomeDemoModel: 'gpt-4o-mini',
     // SSRF防护配置
     'fetch_setting.enable_ssrf_protection': true,
     'fetch_setting.allow_private_ip': '',
@@ -317,6 +318,16 @@ const SystemSetting = () => {
   const submitServerAddress = async () => {
     let ServerAddress = removeTrailingSlash(inputs.ServerAddress);
     await updateOptions([{ key: 'ServerAddress', value: ServerAddress }]);
+  };
+
+  const submitHomeDemoModel = async () => {
+    const homeDemoModel = (inputs.HomeDemoModel || '').trim();
+    await updateOptions([
+      {
+        key: 'HomeDemoModel',
+        value: homeDemoModel || 'gpt-4o-mini',
+      },
+    ]);
   };
 
   const submitSMTP = async () => {
@@ -728,10 +739,25 @@ const SystemSetting = () => {
                         )}
                       />
                     </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Form.Input
+                        field='HomeDemoModel'
+                        label={t('首页示例模型')}
+                        placeholder='gpt-4o-mini'
+                        extraText={t(
+                          '用于首页 SDK 示例代码中的 model 字段，留空将回退为 gpt-4o-mini',
+                        )}
+                      />
+                    </Col>
                   </Row>
-                  <Button onClick={submitServerAddress}>
-                    {t('更新服务器地址')}
-                  </Button>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <Button onClick={submitServerAddress}>
+                      {t('更新服务器地址')}
+                    </Button>
+                    <Button onClick={submitHomeDemoModel}>
+                      {t('更新首页示例模型')}
+                    </Button>
+                  </div>
                 </Form.Section>
               </Card>
 

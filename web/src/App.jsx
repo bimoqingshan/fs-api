@@ -18,7 +18,13 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React, { lazy, Suspense, useContext, useMemo } from 'react';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import Loading from './components/common/ui/Loading';
 import User from './pages/User';
 import { AuthRedirect, PrivateRoute, AdminRoute } from './helpers';
@@ -31,6 +37,9 @@ import { StatusContext } from './context/Status';
 
 import PasswordResetForm from './components/auth/PasswordResetForm';
 import PasswordResetConfirm from './components/auth/PasswordResetConfirm';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
 import Channel from './pages/Channel';
 import Token from './pages/Token';
 import Redemption from './pages/Redemption';
@@ -44,6 +53,7 @@ import Task from './pages/Task';
 import ModelPage from './pages/Model';
 import ModelDeploymentPage from './pages/ModelDeployment';
 import Playground from './pages/Playground';
+import ImageGeneration from './pages/ImageGeneration';
 import Subscription from './pages/Subscription';
 import OAuth2Callback from './components/auth/OAuth2Callback';
 import PersonalSetting from './components/settings/PersonalSetting';
@@ -156,6 +166,16 @@ function App() {
           }
         />
         <Route
+          path='/console/image-generation'
+          element={
+            <Navigate to='/image-generation' replace />
+          }
+        />
+        <Route
+          path='/image-generation'
+          element={<ImageGeneration />}
+        />
+        <Route
           path='/console/redemption'
           element={
             <AdminRoute>
@@ -184,7 +204,7 @@ function App() {
           element={
             <Suspense fallback={<Loading></Loading>} key={location.pathname}>
               <AuthRedirect>
-                <LoginForm />
+                <Login />
               </AuthRedirect>
             </Suspense>
           }
@@ -194,7 +214,17 @@ function App() {
           element={
             <Suspense fallback={<Loading></Loading>} key={location.pathname}>
               <AuthRedirect>
-                <RegisterForm />
+                <Register />
+              </AuthRedirect>
+            </Suspense>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <Suspense fallback={<Loading></Loading>} key={location.pathname}>
+              <AuthRedirect>
+                <ForgotPassword />
               </AuthRedirect>
             </Suspense>
           }
@@ -361,9 +391,11 @@ function App() {
         <Route
           path='/console/chat/:id?'
           element={
-            <Suspense fallback={<Loading></Loading>} key={location.pathname}>
-              <Chat />
-            </Suspense>
+            <PrivateRoute>
+              <Suspense fallback={<Loading></Loading>} key={location.pathname}>
+                <Chat />
+              </Suspense>
+            </PrivateRoute>
           }
         />
         {/* 方便使用chat2link直接跳转聊天... */}

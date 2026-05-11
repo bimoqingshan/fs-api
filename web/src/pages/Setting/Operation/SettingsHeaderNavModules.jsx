@@ -42,6 +42,7 @@ export default function SettingsHeaderNavModules(props) {
   const [headerNavModules, setHeaderNavModules] = useState({
     home: true,
     console: true,
+    imageGeneration: true,
     pricing: {
       enabled: true,
       requireAuth: false, // 默认不需要登录鉴权
@@ -82,6 +83,7 @@ export default function SettingsHeaderNavModules(props) {
     const defaultModules = {
       home: true,
       console: true,
+      imageGeneration: true,
       pricing: {
         enabled: true,
         requireAuth: false,
@@ -133,6 +135,17 @@ export default function SettingsHeaderNavModules(props) {
     if (props.options && props.options.HeaderNavModules) {
       try {
         const modules = JSON.parse(props.options.HeaderNavModules);
+        const defaultModules = {
+          home: true,
+          console: true,
+          imageGeneration: true,
+          pricing: {
+            enabled: true,
+            requireAuth: false,
+          },
+          docs: true,
+          about: true,
+        };
 
         // 处理向后兼容性：如果pricing是boolean，转换为对象格式
         if (typeof modules.pricing === 'boolean') {
@@ -142,12 +155,16 @@ export default function SettingsHeaderNavModules(props) {
           };
         }
 
-        setHeaderNavModules(modules);
+        setHeaderNavModules({
+          ...defaultModules,
+          ...modules,
+        });
       } catch (error) {
         // 使用默认配置
         const defaultModules = {
           home: true,
           console: true,
+          imageGeneration: true,
           pricing: {
             enabled: true,
             requireAuth: false,
@@ -171,6 +188,11 @@ export default function SettingsHeaderNavModules(props) {
       key: 'console',
       title: t('控制台'),
       description: t('用户控制面板，管理账户'),
+    },
+    {
+      key: 'imageGeneration',
+      title: t('图片生成'),
+      description: t('在顶栏控制台旁显示图片生成入口'),
     },
     {
       key: 'pricing',

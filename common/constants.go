@@ -12,10 +12,11 @@ import (
 
 var StartTime = time.Now().Unix() // unit: second
 var Version = "v0.0.0"            // this hard coding will be replaced automatically when building, no need to manually change
-var SystemName = "New API"
+var SystemName = "FS API"
 var Footer = ""
 var Logo = ""
 var TopUpLink = ""
+var SourceCodeURL = ""
 
 // var ChatLink = ""
 // var ChatLink2 = ""
@@ -104,6 +105,11 @@ var TelegramBotName = ""
 var QuotaForNewUser = 0
 var QuotaForInviter = 0
 var QuotaForInvitee = 0
+
+// JWT Configuration
+var JWTSecret = uuid.New().String() // Will be overridden by environment variable
+var JWTExpirationMinutes = 30        // Access token expiration in minutes
+var RefreshTokenExpirationDays = 30 // Refresh token expiration in days
 var ChannelDisableThreshold = 5.0
 var AutomaticDisableChannelEnabled = false
 var AutomaticEnableChannelEnabled = false

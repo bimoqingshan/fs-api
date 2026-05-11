@@ -1,3 +1,6 @@
+> FS API 二开说明：当前仓库基于 `QuantumNous/new-api` 二次开发。
+> 本项目的启动、维护和 AGPL 源码说明见 [README_FS_API.md](./README_FS_API.md)。
+
 <div align="center">
 
 ![new-api](/web/public/logo.png)

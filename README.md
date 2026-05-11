@@ -1,3 +1,6 @@
+> FS API fork note: this repository is a second-development project based on `QuantumNous/new-api`.
+> See [README_FS_API.md](./README_FS_API.md) for local deployment, fork maintenance, and AGPL source-code notes.
+
 <div align="center">
 
 ![new-api](/web/public/logo.png)
@@ -460,6 +463,63 @@ If your organization's policies do not permit the use of AGPLv3-licensed softwar
 [![Star History Chart](https://api.star-history.com/svg?repos=Calcium-Ion/new-api&type=Date)](https://star-history.com/#Calcium-Ion/new-api&Date)
 
 </div>
+
+---
+
+## 📋 商业化功能
+
+> 本章节介绍 FS API 商业版扩展功能，适用于需要商业化运营的场景。
+
+### 🔐 第三方登录
+
+FS API 支持多种 OAuth 第三方登录方式，开箱即用：
+
+| 提供商 | 说明 | 配置难度 |
+|--------|------|---------|
+| **GitHub** | GitHub OAuth App | ⭐ 简单 |
+| **Discord** | Discord OAuth2 | ⭐ 简单 |
+| **LinuxDO** | LinuxDo OAuth | ⭐ 简单 |
+| **OIDC** | 通用 OIDC 协议（支持 Google Workspace、飞书、企业微信等） | ⭐⭐ 中等 |
+| **Google** | Google OAuth2（需配合 OIDC 使用） | ⭐⭐ 中等 |
+
+配置路径：`系统管理 → 渠道管理 → OAuth 设置`
+
+### 💰 额度管理与计费系统
+
+内置强大灵活的计费引擎（billingexpr），支持复杂商业化场景：
+
+- **按模型计费**：不同模型独立定价，支持自定义费率
+- **按渠道计费**：不同渠道独立成本核算，利润透明
+- **包量套餐**：用户可购买固定额度套餐
+- **按量付费**：实时计费，适合临时使用场景
+- **渠道加价倍率**：全局或渠道级加价策略
+- **额度分组**：支持 Token 分组隔离，限制模型访问权限
+
+> 配置路径：`系统管理 → 额度管理 → 计费表达式`
+
+### 🔄 Token 中转 API
+
+兼容主流大模型 API 格式，无需修改客户端代码即可接入：
+
+| 兼容格式 | 支持功能 |
+|----------|----------|
+| **OpenAI** | Chat Completions、Embeddings、Images、Audio |
+| **Claude** | Messages API（含 Tool Use） |
+| **Gemini** | Gemini 1.5/2.0 全系列，含 Thinking 模式 |
+| **Azure OpenAI** | 官方 Azure 端点，兼容所有模型 |
+| **DeepSeek** | Chat API + Embeddings |
+
+> 所有格式转换均在网关层透明完成，下游客户端无感知。
+
+### 🖥️ 管理后台
+
+功能完善的后台管理界面，适合运营团队使用：
+
+- **用户管理**：注册审核、额度分配、状态启用/禁用
+- **渠道管理**：添加/编辑渠道，配置模型映射，设置权重和失败重试
+- **额度管理**：用户余额查询、套餐购买记录、计费规则配置
+- **审计日志**：记录所有 API 调用，支持按用户/时间/模型筛选
+- **数据看板**：实时用量统计、渠道健康状态、收入概览
 
 ---
 
