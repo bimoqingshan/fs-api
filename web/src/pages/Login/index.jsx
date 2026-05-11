@@ -29,6 +29,7 @@ import {
   setUserData,
   updateAPI,
   getSystemName,
+  onGitHubOAuthClicked,
 } from '../../helpers';
 import Turnstile from 'react-turnstile';
 import { Button, Card, Checkbox, Form, Typography } from '@douyinfe/semi-ui';
@@ -52,6 +53,7 @@ const Login = () => {
   const { username, password } = inputs;
 
   const [loading, setLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [turnstileEnabled, setTurnstileEnabled] = useState(false);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState('');
@@ -72,6 +74,8 @@ const Login = () => {
       return {};
     }
   }, []);
+
+  const hasGithubOAuth = Boolean(status?.github_oauth);
 
   useEffect(() => {
     if (searchParams.get('expired')) {
@@ -139,6 +143,23 @@ const Login = () => {
       setLoading(false);
     }
   }
+
+  const handleGitHubLogin = () => {
+    if ((hasUserAgreement || hasPrivacyPolicy) && !agreedToTerms) {
+      showError(t('请先阅读并同意用户协议和隐私政策'));
+      return;
+    }
+    if (!status?.github_client_id) {
+      showError(t('GitHub 登录配置不完整'));
+      return;
+    }
+    setGithubLoading(true);
+    try {
+      onGitHubOAuthClicked(status.github_client_id, { shouldLogout: true });
+    } finally {
+      setTimeout(() => setGithubLoading(false), 3000);
+    }
+  };
 
   return (
     <div
@@ -267,6 +288,15 @@ const Login = () => {
                     >
                       {t('登录')}
                     </Button>
+                    {hasGithubOAuth && (
+                      <Button
+                        className='w-full !rounded-lg'
+                        onClick={handleGitHubLogin}
+                        loading={githubLoading}
+                      >
+                        {t('使用 GitHub 继续')}
+                      </Button>
+                    )}
                   </div>
                 </Form>
 
