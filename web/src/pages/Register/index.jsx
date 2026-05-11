@@ -45,12 +45,17 @@ const Register = () => {
   const [inputs, setInputs] = useState({
     username: '',
     email: '',
+    verification_code: '',
     password: '',
     password2: '',
   });
-  const { username, email, password, password2 } = inputs;
+  const { username, email, verification_code, password, password2 } = inputs;
 
   const [loading, setLoading] = useState(false);
+  const [verificationCodeLoading, setVerificationCodeLoading] = useState(false);
+  const [verificationCodeCountDown, setVerificationCodeCountDown] =
+    useState(0);
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [turnstileEnabled, setTurnstileEnabled] = useState(false);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
@@ -72,6 +77,7 @@ const Register = () => {
   }, []);
 
   useEffect(() => {
+    setShowEmailVerification(!!status?.email_verification);
     if (status?.turnstile_check) {
       setTurnstileEnabled(true);
       setTurnstileSiteKey(status.turnstile_site_key);
@@ -79,6 +85,18 @@ const Register = () => {
     setHasUserAgreement(status?.user_agreement_enabled || false);
     setHasPrivacyPolicy(status?.privacy_policy_enabled || false);
   }, [status]);
+
+  useEffect(() => {
+    let id = null;
+    if (verificationCodeCountDown > 0) {
+      id = setInterval(() => {
+        setVerificationCodeCountDown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => {
+      if (id) clearInterval(id);
+    };
+  }, [verificationCodeCountDown]);
 
   function handleChange(name, value) {
     setInputs((prev) => ({ ...prev, [name]: value }));
@@ -101,6 +119,10 @@ const Register = () => {
       showError(t('请先阅读并同意用户协议和隐私政策'));
       return;
     }
+    if (showEmailVerification && !verification_code) {
+      showError(t('请输入邮箱验证码'));
+      return;
+    }
     if (turnstileEnabled && turnstileToken === '') {
       showError(t('请稍后几秒重试，Turnstile 正在检查用户环境'));
       return;
@@ -115,6 +137,7 @@ const Register = () => {
         {
           username,
           email,
+          verification_code,
           password,
           aff_code: affCode,
         },
@@ -130,6 +153,34 @@ const Register = () => {
       showError(t('注册失败，请重试'));
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleSendVerificationCode() {
+    if (!email) {
+      showError(t('请先输入邮箱地址'));
+      return;
+    }
+    if (turnstileEnabled && turnstileToken === '') {
+      showError(t('请稍后几秒重试，Turnstile 正在检查用户环境'));
+      return;
+    }
+    setVerificationCodeLoading(true);
+    try {
+      const res = await API.get(
+        `/api/verification?email=${encodeURIComponent(email)}&turnstile=${turnstileToken}`,
+      );
+      const { success, message } = res.data;
+      if (success) {
+        showSuccess(t('验证码发送成功，请检查你的邮箱！'));
+        setVerificationCodeCountDown(60);
+      } else {
+        showError(message);
+      }
+    } catch (error) {
+      showError(t('发送验证码失败，请重试'));
+    } finally {
+      setVerificationCodeLoading(false);
     }
   }
 
@@ -211,6 +262,39 @@ const Register = () => {
                     prefix={<IconLock />}
                     className='fs-auth-input'
                   />
+
+                  {showEmailVerification && (
+                    <>
+                      <div className='relative'>
+                        <Form.Input
+                          field='verification_code'
+                          label={t('邮箱验证码')}
+                          placeholder={t('请输入邮箱验证码')}
+                          name='verification_code'
+                          value={verification_code}
+                          onChange={(value) =>
+                            handleChange('verification_code', value)
+                          }
+                          prefix={<IconMail />}
+                          className='fs-auth-input'
+                        />
+                        <Button
+                          size='small'
+                          className='!rounded-md !absolute right-2 top-8'
+                          onClick={handleSendVerificationCode}
+                          loading={verificationCodeLoading}
+                          disabled={
+                            verificationCodeLoading ||
+                            verificationCodeCountDown > 0
+                          }
+                        >
+                          {verificationCodeCountDown > 0
+                            ? `${verificationCodeCountDown}s`
+                            : t('获取验证码')}
+                        </Button>
+                      </div>
+                    </>
+                  )}
 
                   <Form.Input
                     field='password2'
