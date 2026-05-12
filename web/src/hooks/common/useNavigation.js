@@ -25,6 +25,7 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
     const defaultModules = {
       home: true,
       console: true,
+      guide: true,
       imageGeneration: true,
       pricing: true,
       docs: true,
@@ -57,6 +58,11 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
         text: t('模型广场'),
         itemKey: 'pricing',
         to: '/pricing',
+      },
+      {
+        text: t('配置说明'),
+        itemKey: 'guide',
+        to: '/guide',
       },
       ...(docsLink
         ? [

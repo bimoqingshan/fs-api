@@ -42,6 +42,7 @@ export default function SettingsHeaderNavModules(props) {
   const [headerNavModules, setHeaderNavModules] = useState({
     home: true,
     console: true,
+    guide: true,
     imageGeneration: true,
     pricing: {
       enabled: true,
@@ -83,6 +84,7 @@ export default function SettingsHeaderNavModules(props) {
     const defaultModules = {
       home: true,
       console: true,
+      guide: true,
       imageGeneration: true,
       pricing: {
         enabled: true,
@@ -138,6 +140,7 @@ export default function SettingsHeaderNavModules(props) {
         const defaultModules = {
           home: true,
           console: true,
+          guide: true,
           imageGeneration: true,
           pricing: {
             enabled: true,
@@ -164,6 +167,7 @@ export default function SettingsHeaderNavModules(props) {
         const defaultModules = {
           home: true,
           console: true,
+          guide: true,
           imageGeneration: true,
           pricing: {
             enabled: true,
@@ -188,6 +192,11 @@ export default function SettingsHeaderNavModules(props) {
       key: 'console',
       title: t('控制台'),
       description: t('用户控制面板，管理账户'),
+    },
+    {
+      key: 'guide',
+      title: t('配置说明'),
+      description: t('客户端接入与配置说明'),
     },
     {
       key: 'imageGeneration',
