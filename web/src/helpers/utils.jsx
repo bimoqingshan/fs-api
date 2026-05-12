@@ -59,14 +59,6 @@ export function getSourceCodeURL() {
 export function getLogo() {
   let logo = localStorage.getItem('logo');
   if (!logo) return '/logo.png';
-  // 国内网络环境下，GitHub raw/cdn 链接可能不可达，自动回退到站内 logo
-  if (
-    logo.includes('raw.githubusercontent.com') ||
-    logo.includes('github.com') ||
-    logo.includes('cdn.jsdelivr.net/gh')
-  ) {
-    return '/logo.png';
-  }
   return logo;
 }
 
